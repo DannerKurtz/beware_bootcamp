@@ -1,13 +1,23 @@
 /** biome-ignore-all assist/source/organizeImports: <explanation> */
 
 import { db } from "@/db";
+import { productTable } from "@/db/schema";
+import { desc } from "drizzle-orm";
 import Image from "next/image";
 import CategorySelector from "./common/category-selector";
+import Footer from "./common/footer";
 import Header from "./common/header";
 import ProductList from "./common/product-list";
 
 export default async function Home() {
 	const products = await db.query.productTable.findMany({
+		with: {
+			variants: true,
+		},
+	});
+	const newlyCreatedProducts = await db.query.productTable.findMany({
+		orderBy: [desc(productTable.createdAt)],
+		limit: 10,
 		with: {
 			variants: true,
 		},
@@ -38,7 +48,9 @@ export default async function Home() {
 					sizes="100vw"
 					className="h-auto w-full px-5"
 				/>
+				<ProductList title="Novos Produtos" products={newlyCreatedProducts} />
 			</div>
+			<Footer />
 		</div>
 	);
 }
