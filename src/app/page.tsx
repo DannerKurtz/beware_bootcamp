@@ -1,5 +1,3 @@
-/** biome-ignore-all assist/source/organizeImports: <explanation> */
-
 import { db } from "@/db";
 import { productTable } from "@/db/schema";
 import { desc } from "drizzle-orm";
@@ -23,7 +21,6 @@ export default async function Home() {
 		},
 	});
 	const categories = await db.query.categoryTable.findMany({});
-	console.log(products);
 	return (
 		<div>
 			<Header />

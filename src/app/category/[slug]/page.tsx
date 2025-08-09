@@ -1,0 +1,46 @@
+import { db } from "@/db";
+import { categoryTable, productTable } from "@/db/schema";
+import { eq } from "drizzle-orm";
+import { notFound } from "next/navigation";
+import Header from "../../common/header";
+import ProductItem from "../../common/product-item";
+
+interface CategoryPageProps {
+	params: Promise<{ slug: string }>;
+}
+
+const CategoryPageProps = async ({ params }: CategoryPageProps) => {
+	const { slug } = await params;
+
+	const category = await db.query.categoryTable.findFirst({
+		where: eq(categoryTable.slug, slug),
+	});
+	if (!category) {
+		return notFound();
+	}
+	const products = await db.query.productTable.findMany({
+		where: eq(productTable.categoryId, category.id),
+		with: {
+			variants: true,
+		},
+	});
+	return (
+		<>
+			<Header />
+			<div className="px-5 space-y-6">
+				<h2 className="font-semibold text-xl">{category.name}</h2>
+				<div className="grid grid-cols-2 gap-4">
+					{products.map((product) => (
+						<ProductItem
+							key={product.id}
+							product={product}
+							textContainerClassName="max-w-full"
+						/>
+					))}
+				</div>
+			</div>
+		</>
+	);
+};
+
+export default CategoryPageProps;
