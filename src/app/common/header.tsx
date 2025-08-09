@@ -1,18 +1,17 @@
 "use client";
-import { authClient } from "@/lib/auth-client";
-import { AvatarFallback } from "@radix-ui/react-avatar";
-import { LogInIcon, LogOutIcon, MenuIcon } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { Avatar, AvatarImage } from "../ui/avatar";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import {
 	Sheet,
 	SheetContent,
 	SheetHeader,
 	SheetTitle,
 	SheetTrigger,
-} from "../ui/sheet";
+} from "@/components/ui/sheet";
+import { authClient } from "@/lib/auth-client";
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { LogInIcon, LogOutIcon, MenuIcon } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 export const Header = () => {
 	const { data: session } = authClient.useSession();
