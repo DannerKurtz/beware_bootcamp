@@ -53,6 +53,11 @@ const SignUpForm = () => {
 			passwordConfirmation: "",
 		},
 	});
+	const handleSingInWithGoogle = async () => {
+		await authClient.signIn.social({
+			provider: "google",
+		});
+	};
 	async function onSubmit(values: formValues) {
 		const { data, error } = await authClient.signUp.email({
 			name: values.name, // required
@@ -153,8 +158,17 @@ const SignUpForm = () => {
 							)}
 						/>
 					</CardContent>
-					<CardFooter>
-						<Button type="submit">Cadastrar</Button>
+					<CardFooter className="flex flex-col gap-2">
+						<Button type="submit" className="w-full">
+							Cadastrar
+						</Button>
+						<Button
+							type="button"
+							onClick={handleSingInWithGoogle}
+							className="w-full"
+						>
+							Entrar com Google
+						</Button>
 					</CardFooter>
 				</form>
 			</Form>
