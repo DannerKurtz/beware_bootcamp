@@ -12,6 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { LogInIcon, LogOutIcon, MenuIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import Cart from "./cart";
 
 export const Header = () => {
 	const { data: session } = authClient.useSession();
@@ -26,7 +27,7 @@ export const Header = () => {
 					className="object-contain"
 				/>
 			</Link>
-			<div className="flex item-center">
+			<div className="flex item-center gap-3">
 				<Sheet>
 					<SheetTrigger asChild>
 						<Button variant={"outline"} size={"icon"}>
@@ -76,6 +77,7 @@ export const Header = () => {
 						</div>
 					</SheetContent>
 				</Sheet>
+				<Cart />
 			</div>
 		</header>
 	);
