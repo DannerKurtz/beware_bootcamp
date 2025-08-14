@@ -32,7 +32,13 @@ export const getCart = async () => {
 			.insert(cartTable)
 			.values({ userId: session.user.id })
 			.returning();
-		return { ...newCart, items: [] };
+		return { ...newCart, items: [], totalInCents: 0 };
 	}
-	return cart;
+	return {
+		...cart,
+		totalInCents: cart.items.reduce(
+			(acc, item) => acc + item.productVariant.priceInCents * item.quantity,
+			0,
+		),
+	};
 };
